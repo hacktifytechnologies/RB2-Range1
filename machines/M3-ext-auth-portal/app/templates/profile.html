@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Profile — BUNL Staff Portal</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background:#f0f4f8;font-family:'Segoe UI',sans-serif">
+<div class="container py-4" style="max-width:540px">
+<div class="card shadow-sm border-0 rounded-3">
+<div class="card-header" style="background:#1a3a5c;color:#fff;font-weight:600">My Profile</div>
+<div class="card-body" style="font-size:.9rem">
+<table class="table table-borderless mb-0">
+<tr><td class="text-muted">Username</td><td><code>{{ session.staff_user }}</code></td></tr>
+<tr><td class="text-muted">Full Name</td><td>{{ session.full_name }}</td></tr>
+<tr><td class="text-muted">Department</td><td>{{ session.department }}</td></tr>
+<tr><td class="text-muted">Role</td><td>{{ session.role }}</td></tr>
+</table>
+<a href="{{ url_for('dashboard') }}" class="btn btn-sm btn-primary mt-3">Back to Dashboard</a>
+</div></div></div>
+</body></html>

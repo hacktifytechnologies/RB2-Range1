@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Admin Panel — BUNL Staff Portal</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4f8}
+  .navbar{background:#1a3a5c}.brand{color:#fff;font-weight:700}
+  .main{padding:1.5rem;max-width:960px;margin:0 auto}
+  .card{border:none;box-shadow:0 1px 4px rgba(0,0,0,.08);border-radius:8px;margin-bottom:1.2rem}
+  .card-header{background:#1a3a5c;color:#fff;font-weight:600;font-size:.88rem;border-radius:8px 8px 0 0!important}
+  code{font-size:.85rem;color:#c0392b;background:#fdf2f8;padding:2px 6px;border-radius:4px}
+  .sensitive-badge{background:#fff3cd;color:#856404;border:1px solid #ffc107;border-radius:4px;padding:1px 8px;font-size:.75rem}
+  footer{background:#1a3a5c;color:#a8c4e0;text-align:center;font-size:.78rem;padding:.8rem;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="navbar navbar-dark px-3 py-2">
+  <span class="brand"><i class="fa fa-bolt me-2" style="color:#f5a623"></i>BUNL Staff Portal</span>
+  <div class="ms-auto d-flex gap-2">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-sm btn-outline-light">Dashboard</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light">Logout</a>
+  </div>
+</nav>
+<div class="main">
+  <h5 style="color:#1a3a5c;margin-bottom:1.2rem"><i class="fa fa-cogs me-2"></i>Administration Panel <span class="badge bg-danger ms-2" style="font-size:.7rem">RESTRICTED</span></h5>
+
+  <div class="card">
+    <div class="card-header"><i class="fa fa-satellite-dish me-2"></i>Meter Data Exchange — API Configuration</div>
+    <div class="card-body" style="font-size:.88rem">
+      <div class="alert alert-warning py-2 mb-3" style="font-size:.82rem"><i class="fa fa-exclamation-triangle me-1"></i>API credentials below are sensitive. Do not share outside authorised personnel. Rotate as per IS-2025-009.</div>
+      <table class="table table-sm table-borderless">
+        <tr><td class="text-muted fw-semibold" style="width:200px">API Endpoint</td><td><code>{{ meter_config.endpoint }}</code></td></tr>
+        <tr><td class="text-muted fw-semibold">API Key <span class="sensitive-badge ms-1">Sensitive</span></td><td><code class="text-danger">{{ meter_config.api_key }}</code></td></tr>
+        <tr><td class="text-muted fw-semibold">DISCOM</td><td>{{ meter_config.discom }}</td></tr>
+        <tr><td class="text-muted fw-semibold">Environment</td><td><span class="badge bg-danger">{{ meter_config.environment }}</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><i class="fa fa-users me-2"></i>Staff Management</div>
+    <div class="card-body p-0">
+      <table class="table table-sm mb-0" style="font-size:.85rem">
+        <thead style="background:#f8f9fa"><tr><th class="ps-3">Username</th><th>Full Name</th><th>Department</th><th>Role</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for s in staff_list %}
+          <tr>
+            <td class="ps-3"><code>{{ s['username'] }}</code></td>
+            <td>{{ s['full_name'] }}</td>
+            <td>{{ s['department'] }}</td>
+            <td><span class="badge bg-{{ 'danger' if s['role']=='admin' else 'secondary' }}">{{ s['role'] }}</span></td>
+            <td><span class="badge bg-{{ 'success' if s['active'] else 'light text-dark' }}">{{ 'Active' if s['active'] else 'Inactive' }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<footer>Bharat Urja Nigam Limited &copy; 2025 &nbsp;|&nbsp; Staff IT Portal v1.8.2</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

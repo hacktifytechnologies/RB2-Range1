@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — BUNL Customer Portal</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root { --bunl-primary: #003d7a; --bunl-secondary: #005fa3; --bunl-accent: #f5a623; }
+    body { background: linear-gradient(135deg, #003d7a 0%, #005fa3 60%, #0072c3 100%); min-height: 100vh; display: flex; flex-direction: column; }
+    .login-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .login-card { background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); max-width: 420px; width: 100%; overflow: hidden; }
+    .login-header { background: var(--bunl-primary); padding: 2rem; text-align: center; }
+    .login-header .brand-icon { font-size: 2.5rem; color: var(--bunl-accent); }
+    .login-header h5 { color: #fff; font-weight: 700; margin: 0.5rem 0 0.2rem; }
+    .login-header small { color: #a8c4e0; font-size: 0.8rem; }
+    .login-body { padding: 2rem; }
+    .form-label { font-size: 0.85rem; font-weight: 600; color: #495057; }
+    .form-control { border-radius: 6px; font-size: 0.9rem; }
+    .form-control:focus { border-color: var(--bunl-secondary); box-shadow: 0 0 0 0.2rem rgba(0,95,163,0.15); }
+    .btn-login { background: var(--bunl-primary); border: none; border-radius: 6px; padding: 0.6rem; font-weight: 600; letter-spacing: 0.3px; }
+    .btn-login:hover { background: var(--bunl-secondary); }
+    .divider { border-top: 1px solid #e9ecef; margin: 1.2rem 0; }
+    .notice { background: #e8f4fd; border-left: 3px solid var(--bunl-secondary); border-radius: 4px; padding: 0.7rem 1rem; font-size: 0.82rem; color: #1a5276; }
+    .footer-bar { background: rgba(0,0,0,0.3); color: #a8c4e0; font-size: 0.78rem; text-align: center; padding: 0.8rem; }
+    .alert { border-radius: 6px; font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-icon">&#9889;</div>
+      <h5>Bharat Urja Nigam Limited</h5>
+      <small>Customer Self-Service Portal</small>
+    </div>
+    <div class="login-body">
+      {% for cat, msg in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ 'danger' if cat == 'danger' else 'success' }} py-2">
+        <i class="fa fa-{{ 'exclamation-circle' if cat == 'danger' else 'check-circle' }} me-2"></i>{{ msg }}
+      </div>
+      {% endfor %}
+
+      <p class="text-muted mb-3" style="font-size:0.87rem">Please sign in with your registered Consumer ID and password.</p>
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label class="form-label">Consumer ID / Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-user text-muted"></i></span>
+            <input type="text" name="username" class="form-control" placeholder="e.g. pmehta" required autocomplete="username">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-lock text-muted"></i></span>
+            <input type="password" name="password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+          </div>
+          <div class="text-end mt-1"><a href="#" style="font-size:0.82rem;color:#005fa3">Forgot password?</a></div>
+        </div>
+        <button type="submit" class="btn btn-login btn-primary w-100">
+          <i class="fa fa-sign-in-alt me-2"></i>Sign In
+        </button>
+      </form>
+
+      <div class="divider"></div>
+      <div class="notice">
+        <i class="fa fa-info-circle me-1"></i>
+        <strong>First-time users:</strong> Your default Consumer ID is your registered mobile number. Contact <strong>1800-XXX-BUNL</strong> for assistance.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer-bar">
+  Bharat Urja Nigam Limited &copy; 2025 &nbsp;|&nbsp; Consumer Services Division &nbsp;|&nbsp; IT Helpdesk: support@bunl.in
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

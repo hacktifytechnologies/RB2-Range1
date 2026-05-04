@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel — BUNL CSP{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h4><i class="fa fa-cogs me-2"></i>System Administration Panel</h4>
+  <small class="text-muted">Restricted — Authorised Personnel Only</small>
+</div>
+
+<div class="alert alert-warning py-2 mb-3" style="font-size:0.85rem">
+  <i class="fa fa-shield-alt me-1"></i> This panel is restricted to system administrators. All actions are logged and audited.
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><i class="fa fa-users me-2"></i>Registered Users</div>
+      <div class="card-body p-0">
+        <table class="table table-sm mb-0" style="font-size:0.85rem">
+          <thead style="background:#f8f9fa"><tr><th class="ps-3">Username</th><th>Role</th><th>Account ID</th></tr></thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td class="ps-3">{{ u.username }}</td>
+              <td><span class="badge bg-{{ 'danger' if u.role == 'admin' else 'secondary' }}">{{ u.role }}</span></td>
+              <td><code style="font-size:0.78rem">{{ u.account_id }}</code></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><i class="fa fa-server me-2"></i>System Configuration</div>
+      <div class="card-body" style="font-size:0.85rem">
+        <table class="table table-sm table-borderless mb-0">
+          <tbody>
+            <tr><td class="text-muted fw-semibold">Portal Version</td><td>{{ config.portal_version }}</td></tr>
+            <tr><td class="text-muted fw-semibold">Environment</td><td><span class="badge bg-danger">{{ config.environment }}</span></td></tr>
+            <tr><td class="text-muted fw-semibold">Last DB Sync</td><td>{{ config.last_sync }}</td></tr>
+            <tr><td class="text-muted fw-semibold">Cache Host</td><td><code>{{ config.cache_host }}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header"><i class="fa fa-plug me-2"></i>API Integration Settings</div>
+  <div class="card-body" style="font-size:0.85rem">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-2">
+          <span class="text-muted fw-semibold">Billing API Endpoint</span><br>
+          <code class="text-primary">{{ config.billing_api_endpoint }}</code>
+        </div>
+        <div class="mb-2">
+          <span class="text-muted fw-semibold">Billing API Key</span>
+          <span class="badge bg-warning text-dark ms-2" style="font-size:0.72rem">Sensitive</span><br>
+          <code class="text-danger">{{ config.billing_api_key }}</code>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="alert alert-info py-2" style="font-size:0.82rem">
+          <i class="fa fa-info-circle me-1"></i>
+          The Billing API key is used to authenticate GraphQL queries to the internal billing service.
+          Refer to <strong>IS-2025-009</strong> for key rotation schedule.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><i class="fa fa-history me-2"></i>Recent Audit Log</div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0" style="font-size:0.82rem">
+      <thead style="background:#f8f9fa"><tr><th class="ps-3">Timestamp</th><th>Event</th><th>User</th><th>IP</th></tr></thead>
+      <tbody>
+        <tr><td class="ps-3">2025-11-15 08:42:11</td><td>LOGIN_SUCCESS</td><td>sysadmin</td><td>—</td></tr>
+        <tr><td class="ps-3">2025-11-15 07:15:03</td><td>CONFIG_VIEW</td><td>sysadmin</td><td>—</td></tr>
+        <tr><td class="ps-3">2025-11-14 22:01:44</td><td>USER_EXPORT</td><td>sysadmin</td><td>—</td></tr>
+        <tr><td class="ps-3">2025-11-14 18:30:12</td><td>BILLING_API_KEY_ROTATED</td><td>sysadmin</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

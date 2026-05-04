@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}New Connection — BUNL Customer Portal{% endblock %}
+{% block content %}
+<div class="page-header"><h4><i class="fa fa-plug me-2"></i>Apply for New Connection</h4></div>
+<div class="card" style="max-width:600px">
+  <div class="card-header">Connection Application Form</div>
+  <div class="card-body" style="font-size:0.9rem">
+    <p class="text-muted mb-3">Fill in the form below to apply for a new electricity connection. Our team will contact you within 5–7 working days.</p>
+    <form>
+      <div class="mb-3"><label class="form-label">Applicant Name</label><input type="text" class="form-control" placeholder="Full Name as per Aadhaar"></div>
+      <div class="mb-3"><label class="form-label">Connection Type</label>
+        <select class="form-select"><option>Domestic LT</option><option>Commercial LT</option><option>Agricultural</option><option>Industrial HT</option></select>
+      </div>
+      <div class="mb-3"><label class="form-label">Load Required (kW)</label><input type="number" class="form-control" placeholder="e.g. 5"></div>
+      <div class="mb-3"><label class="form-label">Address</label><textarea class="form-control" rows="3"></textarea></div>
+      <button type="submit" class="btn btn-primary btn-sm">Submit Application</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

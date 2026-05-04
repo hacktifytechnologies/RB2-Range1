@@ -1,0 +1,20 @@
+id: VAJRASHAKTI-EXT01-M2-GRAPHQL-BATCHING
+name: VAJRASHAKTI-Setup-M2-GraphQLBatchingBruteforce
+description: >
+  Participant is presented with the BUNL Billing GraphQL API. The API enforces a
+  per-request rate limit of five staffLogin mutations per minute — however, GraphQL
+  batch requests (an array of operations) count as a single HTTP request. By sending
+  an array of login mutations in one POST, a participant can brute-force staff credentials
+  at high speed. Successful authentication as the admin staff account unlocks the
+  systemConfig query which reveals the Staff Authentication Portal credentials for M3.
+tactic: credential-access
+technique_id: T1110
+technique_name: Brute Force
+sub_technique: "Password Spraying"
+tag: "range"
+executors:
+  - name: sh
+    platform: linux
+    command: chmod 640 /opt/bunl/billing-api/billing.db && chown -R bunl-gql:bunl-gql /opt/bunl/billing-api && systemctl enable bunl-billing-api --quiet && systemctl restart bunl-billing-api
+    payloads: []
+    parsers: []

@@ -1,0 +1,20 @@
+id: VAJRASHAKTI-EXT01-M1-XPATH-INJECTION
+name: VAJRASHAKTI-Setup-M1-XPathInjectionCustomerPortal
+description: >
+  Participant is presented with the BUNL Customer Self-Service Portal, a realistic
+  electricity utility portal. The backend authenticates users by interpolating their
+  credentials directly into an XPath expression against an XML user database. By
+  crafting a username containing XPath boolean logic (e.g. ' or '1'='1), a participant
+  can bypass authentication entirely and land in the administrator session, where the
+  system configuration panel reveals a billing API key required to advance to M2.
+tactic: initial-access
+technique_id: T1190
+technique_name: Exploit Public-Facing Application
+sub_technique: "None"
+tag: "range"
+executors:
+  - name: sh
+    platform: linux
+    command: chmod +x /opt/bunl/customer-portal/app.py && chown -R bunl-csp:bunl-csp /opt/bunl/customer-portal && systemctl enable bunl-customer-portal --quiet && systemctl restart bunl-customer-portal
+    payloads: []
+    parsers: []

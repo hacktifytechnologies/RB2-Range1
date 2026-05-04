@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Dashboard — BUNL Staff Portal</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4f8}
+  .navbar{background:#1a3a5c}.brand{color:#fff;font-weight:700;font-size:1.05rem}
+  .sidebar{background:#fff;border-right:1px solid #dee2e6;min-height:calc(100vh - 56px);padding:1rem 0}
+  .sidebar .nav-link{color:#495057;padding:.6rem 1.2rem;font-size:.88rem;border-left:3px solid transparent}
+  .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#1a3a5c;background:#e8f4fd;border-left-color:#f5a623}
+  .main{padding:1.5rem}.card{border:none;box-shadow:0 1px 4px rgba(0,0,0,.08);border-radius:8px}
+  .card-header{background:#1a3a5c;color:#fff;font-weight:600;font-size:.88rem;border-radius:8px 8px 0 0!important}
+  .notice-card{border-left:4px solid #f5a623;border-radius:6px;padding:1rem;background:#fff;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .notice-title{font-weight:600;font-size:.9rem;color:#1a3a5c}.notice-meta{font-size:.78rem;color:#6c757d}
+  footer{background:#1a3a5c;color:#a8c4e0;text-align:center;font-size:.78rem;padding:.8rem}
+</style>
+</head>
+<body>
+<nav class="navbar navbar-dark px-3 py-2">
+  <span class="brand"><i class="fa fa-bolt me-2" style="color:#f5a623"></i>BUNL Staff Portal</span>
+  <div class="ms-auto d-flex align-items-center gap-3">
+    <span class="text-white-50" style="font-size:.83rem"><i class="fa fa-user-circle me-1"></i>{{ session.full_name }}</span>
+    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light">Logout</a>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar">
+      <ul class="nav flex-column">
+        <li><a class="nav-link active" href="{{ url_for('dashboard') }}"><i class="fa fa-home me-2"></i>Home</a></li>
+        <li><a class="nav-link" href="{{ url_for('profile') }}"><i class="fa fa-user me-2"></i>My Profile</a></li>
+        <li><a class="nav-link" href="#"><i class="fa fa-ticket-alt me-2"></i>IT Tickets</a></li>
+        <li><a class="nav-link" href="#"><i class="fa fa-calendar me-2"></i>Leave Portal</a></li>
+        {% if session.role == 'admin' %}<li><a class="nav-link" href="{{ url_for('admin_panel') }}"><i class="fa fa-cogs me-2"></i>Admin Panel</a></li>{% endif %}
+      </ul>
+    </div>
+    <div class="col-md-10 main">
+      {% for cat,msg in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ 'danger' if cat=='danger' else 'info' }} py-2 mb-3">{{ msg }}</div>
+      {% endfor %}
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0" style="color:#1a3a5c"><i class="fa fa-home me-2"></i>Welcome, {{ session.full_name }}</h5>
+        <small class="text-muted">{{ session.department }}</small>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header"><i class="fa fa-bullhorn me-2"></i>Internal Notices</div>
+        <div class="card-body">
+          {% for n in notices %}
+          <div class="notice-card">
+            <div class="notice-title">{{ n['title'] }}</div>
+            <div class="notice-meta">Posted by {{ n['posted_by'] }} &bull; {{ n['posted_at'] }}</div>
+            <div class="mt-1" style="font-size:.87rem;color:#495057">{{ n['body'] }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4"><div class="card text-center p-3"><i class="fa fa-ticket-alt fa-2x mb-2" style="color:#1a3a5c"></i><div style="font-size:.85rem">Open Tickets</div><div class="fw-bold fs-4">0</div></div></div>
+        <div class="col-md-4"><div class="card text-center p-3"><i class="fa fa-calendar-check fa-2x mb-2" style="color:#1a3a5c"></i><div style="font-size:.85rem">Leave Balance</div><div class="fw-bold fs-4">12 days</div></div></div>
+        <div class="col-md-4"><div class="card text-center p-3"><i class="fa fa-bell fa-2x mb-2" style="color:#f5a623"></i><div style="font-size:.85rem">Pending Approvals</div><div class="fw-bold fs-4">—</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>Bharat Urja Nigam Limited &copy; 2025 &nbsp;|&nbsp; Staff IT Portal v1.8.2</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

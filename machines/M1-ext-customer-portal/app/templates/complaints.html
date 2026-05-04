@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Complaints — BUNL Customer Portal{% endblock %}
+{% block content %}
+<div class="page-header"><h4><i class="fa fa-headset me-2"></i>Complaints & Requests</h4></div>
+<div class="card" style="max-width:600px">
+  <div class="card-header">Raise a Complaint</div>
+  <div class="card-body" style="font-size:0.9rem">
+    <form>
+      <div class="mb-3"><label class="form-label">Complaint Type</label>
+        <select class="form-select"><option>Power Outage</option><option>Voltage Fluctuation</option><option>Bill Dispute</option><option>Meter Fault</option><option>Other</option></select>
+      </div>
+      <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" rows="4" placeholder="Describe your issue in detail..."></textarea></div>
+      <div class="mb-3"><label class="form-label">Preferred Contact Time</label>
+        <select class="form-select"><option>Morning (9am–12pm)</option><option>Afternoon (12pm–4pm)</option><option>Evening (4pm–7pm)</option></select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Submit Complaint</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

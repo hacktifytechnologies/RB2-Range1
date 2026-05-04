@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — BUNL Customer Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h4><i class="fa fa-tachometer-alt me-2"></i>My Dashboard</h4>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small mb-1"><i class="fa fa-id-card me-1"></i>Account ID</div>
+        <div class="fw-bold" style="font-size:0.95rem">{{ account.account_id }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small mb-1"><i class="fa fa-bolt me-1"></i>Sanctioned Load</div>
+        <div class="fw-bold">{{ account.sanctioned_load }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small mb-1"><i class="fa fa-tag me-1"></i>Tariff Category</div>
+        <div class="fw-bold">{{ account.tariff }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card h-100">
+      <div class="card-body">
+        <div class="text-muted small mb-1"><i class="fa fa-map-marker-alt me-1"></i>Division</div>
+        <div class="fw-bold" style="font-size:0.85rem">{{ account.division }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header"><i class="fa fa-file-invoice me-2"></i>Recent Bills</div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0" style="font-size:0.88rem">
+          <thead style="background:#f8f9fa">
+            <tr>
+              <th class="ps-3">Billing Month</th>
+              <th>Units (kWh)</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for bill in bills %}
+            <tr>
+              <td class="ps-3">{{ bill.month }}</td>
+              <td>{{ bill.units }}</td>
+              <td>{{ bill.amount }}</td>
+              <td>{{ bill.due }}</td>
+              <td><span class="badge-{{ 'paid' if bill.status == 'Paid' else 'pending' }}">{{ bill.status }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-header"><i class="fa fa-exclamation-triangle me-2"></i>Outage Alerts</div>
+      <div class="card-body" style="font-size:0.87rem">
+        <div class="text-success mb-2"><i class="fa fa-check-circle me-1"></i>No active outages in your area</div>
+        <div class="text-muted">Last check: 15 Nov 2025, 09:00 IST</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><i class="fa fa-headset me-2"></i>Quick Actions</div>
+      <div class="card-body" style="font-size:0.87rem">
+        <a href="#" class="btn btn-sm btn-outline-primary w-100 mb-2"><i class="fa fa-credit-card me-1"></i>Pay Bill Online</a>
+        <a href="{{ url_for('complaints') }}" class="btn btn-sm btn-outline-secondary w-100 mb-2"><i class="fa fa-headset me-1"></i>Raise Complaint</a>
+        <a href="#" class="btn btn-sm btn-outline-secondary w-100"><i class="fa fa-download me-1"></i>Download Bill PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

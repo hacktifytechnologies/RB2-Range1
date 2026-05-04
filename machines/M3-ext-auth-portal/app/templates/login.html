@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BUNL Staff Portal — Login</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+  body{background:linear-gradient(135deg,#1a3a5c 0%,#2d6a9f 100%);min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI',sans-serif}
+  .wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem}
+  .card{border:none;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.2);max-width:420px;width:100%;overflow:hidden}
+  .card-header{background:#1a3a5c;padding:2rem;text-align:center;color:#fff}
+  .card-header .icon{font-size:2.5rem;color:#f5a623;margin-bottom:.5rem}
+  .card-header h5{font-weight:700;margin:0 0 .2rem}
+  .card-header small{color:#a8c4e0;font-size:.8rem}
+  .card-body{padding:2rem;background:#fff}
+  .form-label{font-size:.85rem;font-weight:600;color:#495057}
+  .form-control{font-size:.9rem;border-radius:6px}
+  .form-control:focus{border-color:#2d6a9f;box-shadow:0 0 0 .2rem rgba(45,106,159,.15)}
+  .btn-primary{background:#1a3a5c;border:none;border-radius:6px;font-weight:600}
+  .btn-primary:hover{background:#2d6a9f}
+  .badge-notice{background:#e8f4fd;color:#1a3a5c;border:1px solid #b8d4eb;border-radius:4px;padding:.4rem .8rem;font-size:.8rem}
+  footer{background:rgba(0,0,0,.3);color:#a8c4e0;text-align:center;padding:.8rem;font-size:.78rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"><i class="fa fa-id-badge"></i></div>
+      <h5>BUNL Staff Authentication Portal</h5>
+      <small>Internal Use Only — Authorised Personnel</small>
+    </div>
+    <div class="card-body">
+      {% for cat,msg in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ 'danger' if cat=='danger' else 'success' }} py-2 mb-3" style="font-size:.87rem">
+        <i class="fa fa-{{ 'exclamation-circle' if cat=='danger' else 'check-circle' }} me-1"></i>{{ msg }}
+      </div>
+      {% endfor %}
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label">Staff Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-user text-muted"></i></span>
+            <input type="text" name="username" class="form-control" placeholder="e.g. svcananya" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-lock text-muted"></i></span>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt me-2"></i>Sign In</button>
+      </form>
+      <div class="badge-notice mt-3 d-flex align-items-center gap-2">
+        <i class="fa fa-info-circle"></i>
+        <span>For password resets, contact IT Helpdesk at <strong>ext. 4400</strong> or email <strong>helpdesk@bunl-internal.net</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>Bharat Urja Nigam Limited &copy; 2025 &nbsp;|&nbsp; Staff IT Portal v1.8.2 &nbsp;|&nbsp; RESTRICTED</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

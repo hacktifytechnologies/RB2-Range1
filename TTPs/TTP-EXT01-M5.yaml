@@ -1,0 +1,20 @@
+id: VAJRASHAKTI-EXT01-M5-NGINX-ALIAS-TRAVERSAL
+name: VAJRASHAKTI-Setup-M5-NginxAliasPathTraversal
+description: >
+  Participant is presented with the BUNL CDN static file server running Nginx. The
+  location block for /assets uses an alias directive without a trailing slash on the
+  location path, creating a classic off-by-one Nginx misconfiguration. Requesting
+  /assets../config.py traverses one directory level up from the assets directory and
+  serves the application configuration file, which contains a hardcoded CORP_PIVOT_TOKEN
+  and the Corporate Zone entry point description for the next range.
+tactic: discovery
+technique_id: T1083
+technique_name: File and Directory Discovery
+sub_technique: "None"
+tag: "range"
+executors:
+  - name: sh
+    platform: linux
+    command: chmod 640 /opt/bunl/cdn-server/config.py && chown -R www-data:www-data /opt/bunl/cdn-server/webroot /opt/bunl/cdn-server/assets && nginx -t && systemctl enable nginx --quiet && systemctl restart nginx
+    payloads: []
+    parsers: []

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}BUNL Customer Portal{% endblock %}</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bunl-primary: #003d7a;
+      --bunl-secondary: #005fa3;
+      --bunl-accent: #f5a623;
+      --bunl-light: #f0f4f8;
+    }
+    body { background-color: var(--bunl-light); font-family: 'Segoe UI', sans-serif; }
+    .navbar { background: linear-gradient(135deg, var(--bunl-primary) 0%, var(--bunl-secondary) 100%); }
+    .navbar-brand img { height: 32px; margin-right: 8px; }
+    .navbar-brand .brand-text { color: #fff; font-weight: 700; font-size: 1.1rem; }
+    .navbar-brand .brand-sub { color: #a8c4e0; font-size: 0.7rem; display: block; }
+    .sidebar { background: #fff; border-right: 1px solid #dee2e6; min-height: calc(100vh - 60px); padding: 1.5rem 0; }
+    .sidebar .nav-link { color: #495057; padding: 0.6rem 1.5rem; font-size: 0.9rem; border-left: 3px solid transparent; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { color: var(--bunl-primary); background: var(--bunl-light); border-left-color: var(--bunl-accent); }
+    .sidebar .nav-link i { width: 20px; margin-right: 8px; }
+    .main-content { padding: 2rem; }
+    .card { border: none; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-radius: 8px; }
+    .card-header { background: var(--bunl-primary); color: #fff; border-radius: 8px 8px 0 0 !important; font-weight: 600; font-size: 0.9rem; }
+    .stat-card { border-left: 4px solid var(--bunl-accent); }
+    .badge-paid { background: #d4edda; color: #155724; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; }
+    .badge-pending { background: #fff3cd; color: #856404; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; }
+    .footer { background: var(--bunl-primary); color: #a8c4e0; font-size: 0.8rem; padding: 1rem 0; margin-top: 2rem; }
+    .alert { border-radius: 6px; font-size: 0.9rem; }
+    .page-header { border-bottom: 2px solid var(--bunl-accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .page-header h4 { color: var(--bunl-primary); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <div>
+        <span class="brand-text">&#9889; BUNL</span>
+        <span class="brand-sub">Bharat Urja Nigam Limited</span>
+      </div>
+    </a>
+    <div class="ms-auto d-flex align-items-center gap-3">
+      {% if session.get('username') %}
+      <span class="text-white-50" style="font-size:0.85rem"><i class="fa fa-user-circle me-1"></i>{{ session.username }}</span>
+      <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light">Logout</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+{% block full_content %}
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    {% block sidebar %}
+    <div class="col-md-2 sidebar d-none d-md-block">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'profile' %}active{% endif %}" href="{{ url_for('profile') }}"><i class="fa fa-user"></i> My Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-file-invoice"></i> Bill History</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'new_connection' %}active{% endif %}" href="{{ url_for('new_connection') }}"><i class="fa fa-plug"></i> New Connection</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'complaints' %}active{% endif %}" href="{{ url_for('complaints') }}"><i class="fa fa-headset"></i> Complaints</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-bolt"></i> Outage Status</a></li>
+        {% if session.get('role') == 'admin' %}
+        <hr class="mx-3">
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'admin_panel' %}active{% endif %}" href="{{ url_for('admin_panel') }}"><i class="fa fa-cogs"></i> Admin Panel</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endblock %}
+
+    <div class="col-md-10 main-content">
+      {% for cat, msg in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ 'danger' if cat == 'danger' else 'success' }} alert-dismissible fade show">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<footer class="footer text-center">
+  <div class="container">
+    <span>Bharat Urja Nigam Limited &copy; 2025 | Customer Self-Service Portal v3.2.1</span>
+    <span class="ms-4">Toll Free: 1800-XXX-BUNL | Email: support@bunl.in</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

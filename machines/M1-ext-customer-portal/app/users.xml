@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  <user>
+    <username>pmehta</username>
+    <password>Cust@Bunl#01</password>
+    <role>customer</role>
+    <account_id>BUNL-CG-2023-00847</account_id>
+    <email>prakash.mehta@gmail.com</email>
+  </user>
+  <user>
+    <username>asingh</username>
+    <password>Spring@2023!</password>
+    <role>customer</role>
+    <account_id>BUNL-CG-2022-01293</account_id>
+    <email>anita.singh@yahoo.in</email>
+  </user>
+  <user>
+    <username>rtiwari</username>
+    <password>Tiwari@Bunl1</password>
+    <role>customer</role>
+    <account_id>BUNL-CG-2021-00512</account_id>
+    <email>rajesh.tiwari@rediffmail.com</email>
+  </user>
+  <user>
+    <username>sysadmin</username>
+    <password>BunlSysAdm!n@Csp</password>
+    <role>admin</role>
+    <account_id>ADMIN-CSP-001</account_id>
+    <email>sysadmin@bunl-internal.net</email>
+    <api_token>gql-key-b2f4a8c3e9d1f7b5</api_token>
+    <notes>BUNL Billing API integration key — rotate quarterly per IS-2025-009</notes>
+  </user>
+</users>

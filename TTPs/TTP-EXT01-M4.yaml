@@ -1,0 +1,19 @@
+id: VAJRASHAKTI-EXT01-M4-XXE-SOAP-CONFIG
+name: VAJRASHAKTI-Setup-M4-XXESoapMeterAPIConfigRead
+description: >
+  Participant is presented with the BUNL Meter Data Exchange SOAP API. The XML parser
+  accepts external entity declarations without restriction. By crafting a POST request
+  with a malicious DOCTYPE declaring a SYSTEM entity referencing file:///opt/bunl/meter-api/config.ini,
+  the entity value is reflected back in the API response inside the MeterId element.
+  Reading config.ini reveals database credentials and a pivot token for the Corporate Zone entry point.
+tactic: collection
+technique_id: T1005
+technique_name: Data from Local System
+sub_technique: "None"
+tag: "range"
+executors:
+  - name: sh
+    platform: linux
+    command: chmod 640 /opt/bunl/meter-api/config.ini && chown -R bunl-meter:bunl-meter /opt/bunl/meter-api && systemctl enable bunl-meter-api --quiet && systemctl restart bunl-meter-api
+    payloads: []
+    parsers: []

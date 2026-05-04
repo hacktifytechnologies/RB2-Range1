@@ -1,0 +1,20 @@
+id: VAJRASHAKTI-EXT01-M3-FLASK-SECRETKEY-FORGE
+name: VAJRASHAKTI-Setup-M3-FlaskWeakSecretKeyCookieForge
+description: >
+  Participant is presented with the BUNL Staff Authentication Portal. The Flask
+  application uses a guessable SECRET_KEY derived from a common word. After registering
+  or observing a session cookie, a participant uses flask-unsign to decode the cookie
+  structure, brute-forces the weak secret against a standard wordlist, then forges an
+  admin session cookie granting access to the administration panel. The admin panel
+  reveals the Meter Data Exchange API key required to authenticate against M4.
+tactic: credential-access
+technique_id: T1606
+technique_name: Forge Web Credentials
+sub_technique: "Web Cookies"
+tag: "range"
+executors:
+  - name: sh
+    platform: linux
+    command: chmod 640 /opt/bunl/auth-portal/staff.db && chown -R bunl-auth:bunl-auth /opt/bunl/auth-portal && systemctl enable bunl-auth-portal --quiet && systemctl restart bunl-auth-portal
+    payloads: []
+    parsers: []
